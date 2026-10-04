@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🚂 Trem das Palavras — Português 2º ano</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --rail:#2E6FB7; --rail-dark:#1F4E82;
+    --sun:#FFC436; --sun-dark:#E0A316;
+    --grass:#46B36B; --grass-soft:#E4F7EB; --grass-dark:#2E8B4F;
+    --red:#E4572E; --red-dark:#B83E1D;
+    --cream:#FFF8EE; --paper:#FFFEF9;
+    --gray:#8C877C; --gray-soft:#EFEBE2;
+    --ink:#33302B;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0; padding:0;}
+  body{
+    font-family:'Nunito',sans-serif; font-weight:600;
+    background:#EAF4FF;
+    background-image:
+      radial-gradient(circle at 12% 18%, rgba(255,255,255,.9) 0 8px, transparent 9px),
+      radial-gradient(circle at 82% 12%, rgba(255,255,255,.8) 0 10px, transparent 11px),
+      radial-gradient(circle at 60% 30%, rgba(255,255,255,.7) 0 6px, transparent 7px);
+    color:var(--ink); min-height:100vh;
+  }
+  .stage{max-width:560px; margin:0 auto; padding:0 12px 44px;}
+
+  /* ===== Topo ===== */
+  .banner{
+    position:relative; margin:0 -12px 6px; padding:20px 16px 26px; text-align:center;
+    background:linear-gradient(180deg, var(--rail) 0%, var(--rail-dark) 100%);
+    border-bottom:7px solid var(--sun);
+  }
+  .banner h1{
+    font-family:'Lilita One',cursive; font-size:2rem; margin:4px 0; color:var(--rail-dark);
+    background:var(--paper); display:inline-block; padding:6px 20px; border-radius:16px;
+    border:4px solid var(--sun); text-shadow:1px 1px 0 var(--sun);
+  }
+  .banner .sub{
+    display:inline-block; background:var(--sun); color:var(--rail-dark);
+    font-weight:900; font-size:.82rem; padding:4px 14px; border-radius:999px; margin-top:8px;
+  }
+
+  /* ===== Vagões (progresso) ===== */
+  .train{display:flex; justify-content:center; align-items:flex-end; gap:5px; margin:12px 0 2px; flex-wrap:wrap;}
+  .loco{font-size:1.7rem;}
+  .wag{
+    width:44px; height:38px; border-radius:8px 8px 6px 6px; display:flex; align-items:center; justify-content:center;
+    font-size:1.1rem; background:#fff; border:3px dashed var(--gray); color:var(--gray);
+    filter:grayscale(.6); opacity:.6; transition:.3s;
+  }
+  .wag.won{background:var(--sun); border:3px solid var(--sun-dark); color:var(--rail-dark); filter:none; opacity:1; transform:translateY(-3px);}
+  .train-label{text-align:center; color:var(--rail-dark); font-size:.82rem; font-weight:800; margin-bottom:8px;}
+
+  /* ===== Cartões / telas ===== */
+  .card{
+    background:var(--paper); border-radius:22px; padding:20px 18px; margin:12px 0;
+    border:4px solid var(--rail-dark); box-shadow:0 7px 0 rgba(31,78,130,.35);
+  }
+  .screen{display:none; animation:pop .25s ease;}
+  .screen.on{display:block;}
+  @keyframes pop{from{transform:scale(.97);opacity:.4}to{transform:scale(1);opacity:1}}
+  @media (prefers-reduced-motion: reduce){ *{animation:none!important; transition:none!important;} }
+
+  h2{font-family:'Lilita One',cursive; font-size:1.42rem; color:var(--rail); margin:2px 0 10px; text-align:center;}
+  h3{font-family:'Lilita One',cursive; font-size:1.12rem; color:var(--grass-dark); margin:14px 0 6px;}
+  p{font-size:1.06rem; line-height:1.55; margin:8px 0;}
+  .big-emoji{font-size:3rem; text-align:center; margin:4px 0;}
+
+  /* ===== Botões ===== */
+  .btn{
+    display:block; width:100%; border:none; cursor:pointer; text-align:center;
+    font-family:'Nunito',sans-serif; font-weight:900; font-size:1.1rem;
+    padding:15px 14px; margin:9px 0; border-radius:18px; color:#fff;
+    background:var(--rail); box-shadow:0 5px 0 var(--rail-dark); transition:.12s;
+  }
+  .btn:active{transform:translateY(4px); box-shadow:0 1px 0 var(--rail-dark);}
+  .btn.sun{background:var(--sun); color:var(--rail-dark); box-shadow:0 5px 0 var(--sun-dark);}
+  .btn.grass{background:var(--grass); box-shadow:0 5px 0 var(--grass-dark);}
+  .btn.red{background:var(--red); box-shadow:0 5px 0 var(--red-dark);}
+  .btn.ghost{background:var(--paper); color:var(--rail-dark); border:3px solid var(--rail-dark); box-shadow:0 5px 0 var(--rail-dark); font-size:1rem; padding:12px;}
+  .btn.done::after{content:" ✅";}
+  .btn:disabled{opacity:.5;}
+  .menu-desc{font-size:.84rem; font-weight:700; color:var(--gray); text-align:center; margin:-4px 0 4px;}
+  .step-tag{
+    display:inline-block; background:var(--rail-dark); color:var(--sun); font-weight:900;
+    font-size:.78rem; padding:3px 12px; border-radius:999px; margin:14px 0 6px;
+  }
+
+  /* ===== Pílulas de teoria ===== */
+  .pill-box{
+    background:var(--cream); border:3px dashed var(--sun-dark); border-radius:18px;
+    padding:16px; text-align:center; min-height:190px;
+    display:flex; flex-direction:column; justify-content:center;
+  }
+  .pill-box .pe{font-size:2.6rem;}
+  .pill-box p{font-size:1.14rem; font-weight:800;}
+  .pill-dots{text-align:center; margin:10px 0 2px; letter-spacing:4px; color:var(--gray); font-size:.9rem;}
+  .hl{background:var(--sun); padding:0 6px; border-radius:6px; font-weight:900;}
+  .hl-b{color:var(--rail); font-weight:900;}
+  .hl-g{color:var(--grass-dark); font-weight:900;}
+  .hl-r{color:var(--red); font-weight:900;}
+
+  /* ===== Perguntas / opções ===== */
+  .q-count{text-align:center; font-weight:900; color:var(--gray); font-size:.85rem; margin-bottom:6px;}
+  .q-sentence{
+    background:var(--cream); border-radius:16px; border:3px solid var(--rail-dark);
+    padding:16px; text-align:center; font-size:1.25rem; font-weight:900; margin:8px 0 14px;
+  }
+  .opt{
+    display:block; width:100%; text-align:left; cursor:pointer;
+    background:#fff; border:3px solid var(--rail-dark); border-radius:16px;
+    font-family:'Nunito',sans-serif; font-weight:800; font-size:1.05rem; color:var(--ink);
+    padding:14px; margin:9px 0; box-shadow:0 4px 0 rgba(31,78,130,.18); transition:.12s;
+  }
+  .opt:active{transform:translateY(3px); box-shadow:none;}
+  .opt.right{background:var(--grass-soft); border-color:var(--grass); color:#1E6B38;}
+  .opt.wrong{background:var(--gray-soft); border-color:var(--gray); color:var(--gray);}
+  .opt:disabled{cursor:default;}
+  .punct-row{display:flex; gap:10px; justify-content:center;}
+  .punct-row .opt{width:30%; text-align:center; font-size:2.1rem; font-family:'Lilita One',cursive; padding:12px 0;}
+
+  /* ===== Botões de tipo (singular/plural, tipos de frase) ===== */
+  .pick2{display:flex; gap:12px;}
+  .pickbtn{
+    flex:1; cursor:pointer; border:none; border-radius:18px; padding:16px 8px; text-align:center;
+    font-family:'Nunito',sans-serif; font-weight:900; font-size:1.02rem; color:#fff;
+    background:var(--rail); box-shadow:0 5px 0 var(--rail-dark);
+  }
+  .pickbtn.b{background:var(--grass); box-shadow:0 5px 0 var(--grass-dark);}
+  .pickbtn:active{transform:translateY(4px); box-shadow:none;}
+  .pickbtn .pe{font-size:1.9rem; display:block;}
+  .pickbtn small{display:block; font-weight:800; font-size:.74rem; opacity:.92; margin-top:3px;}
+  .type-grid{display:grid; grid-template-columns:1fr 1fr 1fr; gap:9px;}
+  .typebtn{
+    cursor:pointer; border:none; border-radius:16px; padding:13px 6px; text-align:center;
+    font-family:'Nunito',sans-serif; font-weight:900; font-size:.92rem; color:#fff;
+  }
+  .typebtn small{display:block; font-weight:800; font-size:.68rem; opacity:.92; margin-top:3px;}
+  .typebtn:active{transform:translateY(3px);}
+  .t-af{background:var(--grass); box-shadow:0 4px 0 var(--grass-dark);}
+  .t-in{background:var(--rail); box-shadow:0 4px 0 var(--rail-dark);}
+  .t-ex{background:var(--red); box-shadow:0 4px 0 var(--red-dark);}
+
+  /* ===== Feedback (gabarito comentado) ===== */
+  .fb{border-radius:16px; padding:14px; margin:12px 0; font-size:1.02rem; line-height:1.5; display:none;}
+  .fb.on{display:block; animation:pop .2s ease;}
+  .fb.ok{background:var(--grass-soft); border:3px solid var(--grass); color:#1E6B38; font-weight:800;}
+  .fb.no{background:var(--gray-soft); border:3px solid var(--gray); color:#5C5850; font-weight:700;}
+  .fb .fb-right{display:block; margin-top:8px; color:#1E6B38; font-weight:900;}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  .shake{animation:shake .3s ease;}
+
+  /* ===== Montar frase (bolinhas) ===== */
+  .built{
+    min-height:56px; background:var(--cream); border:3px dashed var(--sun-dark); border-radius:16px;
+    padding:10px; display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:8px 0 12px;
+    font-weight:900; font-size:1.12rem;
+  }
+  .built .bw{background:var(--grass-soft); border:2px solid var(--grass); border-radius:10px; padding:5px 10px; color:#1E6B38;}
+  .balls{display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin:6px 0;}
+  .ball{
+    cursor:pointer; border:3px solid var(--rail-dark); border-radius:999px;
+    background:radial-gradient(circle at 30% 30%, #fff, var(--sun));
+    font-family:'Nunito',sans-serif; font-weight:900; font-size:1.08rem; color:var(--rail-dark);
+    padding:13px 17px; box-shadow:0 4px 0 rgba(31,78,130,.25);
+  }
+  .ball:active{transform:translateY(3px); box-shadow:none;}
+  .ball.used{visibility:hidden;}
+
+  /* ===== Texto de leitura ===== */
+  .story{
+    background:#FFFEF8; border:3px solid var(--sun-dark); border-radius:14px;
+    padding:14px 16px; margin:10px 0; box-shadow:3px 3px 0 rgba(31,78,130,.12);
+  }
+  .story p{margin:7px 0; font-size:1.06rem; line-height:1.6;}
+  .story h4{font-family:'Lilita One',cursive; color:var(--red); text-align:center; margin:2px 0 8px; font-size:1.2rem;}
+
+  /* ===== Cartaz / Mapa de revisão ===== */
+  .poster{background:var(--cream); border:5px double var(--rail); border-radius:16px; padding:14px; margin:12px 0;}
+  .poster h3{margin-top:2px; text-align:center;}
+  .poster table{width:100%; border-collapse:collapse; margin:6px 0;}
+  .poster td{border:2px solid var(--rail-dark); padding:8px; font-size:.95rem; font-weight:800; background:#fff; text-align:center;}
+  .poster .pt-head td{background:var(--rail-dark); color:var(--sun); font-weight:900;}
+  .bordao{
+    background:var(--sun); border:3px solid var(--sun-dark); border-radius:14px;
+    text-align:center; font-family:'Lilita One',cursive; color:var(--rail-dark);
+    font-size:1.15rem; padding:12px; margin:10px 0;
+  }
+  .steps{counter-reset:s; list-style:none; padding:0; margin:6px 0;}
+  .steps li{
+    counter-increment:s; background:#fff; border:2px solid var(--rail-dark); border-radius:12px;
+    padding:10px 10px 10px 46px; margin:7px 0; position:relative; font-weight:800; font-size:.98rem;
+  }
+  .steps li::before{
+    content:counter(s); position:absolute; left:8px; top:50%; transform:translateY(-50%);
+    width:28px; height:28px; border-radius:50%; background:var(--rail); color:#fff;
+    font-family:'Lilita One',cursive; display:flex; align-items:center; justify-content:center;
+  }
+
+  /* ===== Medalha / final ===== */
+  .medal{font-size:4.3rem; text-align:center; margin:6px 0;}
+  .code-box{
+    text-align:center; background:var(--rail-dark); color:var(--sun); border-radius:14px;
+    font-family:'Lilita One',cursive; font-size:1.5rem; letter-spacing:2px; padding:12px; margin:10px 0;
+  }
+
+  /* ===== Confete ===== */
+  .cf{position:fixed; top:-20px; z-index:99; font-size:1.3rem; animation:fall linear forwards; pointer-events:none;}
+  @keyframes fall{to{transform:translateY(110vh) rotate(720deg);}}
+
+  /* ===== Área dos pais ===== */
+  .pais-link{text-align:center; margin-top:16px;}
+  .pais-link button{background:none; border:none; color:var(--rail-dark); font-family:'Nunito',sans-serif; font-weight:800; font-size:.82rem; text-decoration:underline; cursor:pointer;}
+  .save-info{font-size:.85rem; color:var(--gray); text-align:center; font-weight:700;}
+  .back-row{display:flex; gap:10px;}
+  .back-row .btn{flex:1;}
+  textarea{width:100%; border:2px solid var(--rail-dark); border-radius:12px; padding:8px; font-family:monospace; font-size:.75rem; min-height:70px;}
+  .codein{width:100%; border:3px solid var(--rail-dark); border-radius:12px; padding:12px; font-family:'Lilita One',cursive; font-size:1.2rem; text-align:center; letter-spacing:2px; margin:6px 0;}
+
+  /* ===== Modal (substitui alert/confirm) ===== */
+  .mask{display:none; position:fixed; inset:0; background:rgba(31,78,130,.5); z-index:100; align-items:center; justify-content:center; padding:18px;}
+  .mask.on{display:flex;}
+  .modal{background:var(--paper); border:4px solid var(--ink); border-radius:20px; max-width:420px; width:100%; padding:20px 18px; box-shadow:0 10px 0 rgba(0,0,0,.2);}
+  .modal h3{margin-top:0; text-align:center; color:var(--red-dark);}
+  .modal p{font-size:1rem;}
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <header class="banner">
+    <div style="font-size:1.9rem">🚂💨</div>
+    <h1>Trem das Palavras</h1><br>
+    <span class="sub">PORTUGUÊS • 2º ANO • COLÉGIO SÃO JOSÉ</span>
+  </header>
+
+  <div class="train">
+    <span class="loco">🚂</span>
+    <div class="wag" id="wag1">1</div>
+    <div class="wag" id="wag2">2</div>
+    <div class="wag" id="wag3">3</div>
+    <div class="wag" id="wag4">4</div>
+    <div class="wag" id="wag5">5</div>
+    <div class="wag" id="wag6">6</div>
+  </div>
+  <div class="train-label" id="trainLabel">Complete as estações e encha o trem de vagões dourados! ⭐</div>
+
+  <!-- ============ MENU ============ -->
+  <section class="screen on" id="scr-menu">
+    <div class="card">
+      <div class="big-emoji">🚂</div>
+      <p style="text-align:center; font-weight:800;">
+        Oi, jovem aprendiz! Bem-vindo ao <span class="hl-b">Trem das Palavras</span>!
+        Em cada <b>estação</b> a gente aprende um pedacinho da matéria da prova <b>brincando</b>.
+        Faça uma estação de cada vez e ganhe um <b>vagão dourado</b>! 🎉
+        <br><small style="color:var(--gray)">Dica: comece pela estação 1 e vá descendo.</small>
+      </p>
+
+      <div class="step-tag">1 • APRENDA E JOGUE</div>
+      <button class="btn" id="mb1" onclick="startP(1)">🔢 Estação do Um e dos Muitos</button>
+      <p class="menu-desc">Singular e plural</p>
+      <button class="btn" id="mb2" onclick="startP(2)">✨ Estação dos Sinais ( . ? ! )</button>
+      <p class="menu-desc">Pontuação: ponto, interrogação e exclamação</p>
+      <button class="btn" id="mb3" onclick="startP(3)">🚦 Estação dos Tipos de Frase</button>
+      <p class="menu-desc">Afirmativa, interrogativa e exclamativa</p>
+      <button class="btn" id="mb4" onclick="startP(4)">🧩 Estação de Montar Frases</button>
+      <p class="menu-desc">Sentido completo, espaço e ordem das palavras</p>
+      <button class="btn" id="mb5" onclick="startP(5)">🔎 Estação do Detetive da Leitura</button>
+      <p class="menu-desc">Interpretação de texto</p>
+      <button class="btn" id="mb6" onclick="startP(6)">✏️ Estação da Escrita Caprichada</button>
+      <p class="menu-desc">Escrever frases e o parágrafo</p>
+
+      <div class="step-tag">2 • REVISE</div>
+      <button class="btn sun" onclick="go('cartaz')">🗺️ Mapa da Viagem (revisão)</button>
+      <p class="menu-desc">Toda a matéria da prova num cartaz só</p>
+
+      <div class="step-tag">3 • TESTE VALENDO</div>
+      <button class="btn red" id="mbF" onclick="startFinal()">🏆 A Grande Viagem Final</button>
+      <p class="menu-desc" id="finalHint">Complete as 6 estações para liberar!</p>
+
+      <div class="save-info" id="saveInfo"></div>
+    </div>
+    <div class="pais-link"><button onclick="go('pais')">👨‍👩‍👧 Área dos pais</button></div>
+  </section>
+
+  <!-- ============ MAPA DA VIAGEM (revisão) ============ -->
+  <section class="screen" id="scr-cartaz">
+    <div class="card">
+      <h2>🗺️ Mapa da Viagem</h2>
+      <p style="text-align:center;">Tudo o que cai na prova de <b>08/10</b>, num cartaz só. Leia com um adulto! 🤗</p>
+
+      <div class="bordao">🔢 Singular é uma só! Plural é mais de uma! 🚂🚂🚂</div>
+
+      <div class="poster">
+        <h3>🔢 1. SINGULAR e PLURAL</h3>
+        <p style="font-size:.98rem;"><b>Singular</b> = quando é <b>UMA só</b> coisa (uma maçã, um menino).<br>
+        <b>Plural</b> = quando é <b>MAIS DE UMA</b> (três maçãs, três meninos).</p>
+        <table>
+          <tr class="pt-head"><td>A palavra termina em…</td><td>o plural faz…</td><td>Exemplo</td></tr>
+          <tr><td>quase tudo (vogal)</td><td>+ <b>S</b></td><td>bola → bola<b>s</b></td></tr>
+          <tr><td><b>R</b></td><td>+ <b>ES</b></td><td>flor → flor<b>es</b></td></tr>
+          <tr><td><b>L</b></td><td>troca o L por <b>IS</b></td><td>anima<b>l</b> → anima<b>is</b> • pape<b>l</b> → papé<b>is</b></td></tr>
+          <tr><td><b>Z</b></td><td>+ <b>ES</b></td><td>lu<b>z</b> → luz<b>es</b></td></tr>
+          <tr><td><b>ÃO</b></td><td>vira <b>ÕES</b></td><td>cora<b>ção</b> → cora<b>ções</b></td></tr>
+        </table>
+      </div>
+
+      <div class="poster">
+        <h3>✨ 2. OS SINAIS DE PONTUAÇÃO</h3>
+        <table>
+          <tr class="pt-head"><td>Sinal</td><td>Nome e para que serve</td><td>Exemplo</td></tr>
+          <tr><td style="font-size:1.5rem;">.</td><td><b>Ponto-final</b> — termina a frase e <b>afirma</b> (conta algo calmo)</td><td>Está na hora do banho<b>.</b></td></tr>
+          <tr><td style="font-size:1.5rem;">?</td><td><b>Ponto de interrogação</b> — faz uma <b>pergunta</b></td><td>Escovou os dentes<b>?</b></td></tr>
+          <tr><td style="font-size:1.5rem;">!</td><td><b>Ponto de exclamação</b> — mostra <b>emoção</b>: surpresa, espanto, alegria ou uma <b>ordem</b></td><td>Que calor<b>!</b></td></tr>
+        </table>
+        <p style="font-size:.9rem;">A <b>vírgula ( , )</b> é um sinal de <b>pausa</b> no meio da frase. Na prova, os sinais do fim são <b>. ? !</b></p>
+      </div>
+
+      <div class="poster">
+        <h3>🚦 3. OS TIPOS DE FRASE (pelo sinal do fim)</h3>
+        <table>
+          <tr class="pt-head"><td>Tipo</td><td>Termina em</td><td>Exemplo</td></tr>
+          <tr><td>🟢 <b>Afirmativa</b> (conta/afirma)</td><td>.</td><td>O tempo está bonito<b>.</b></td></tr>
+          <tr><td>🔵 <b>Interrogativa</b> (pergunta)</td><td>?</td><td>Essa casa é de dois andares<b>?</b></td></tr>
+          <tr><td>🔴 <b>Exclamativa</b> (emoção)</td><td>!</td><td>A fruta está estragada<b>!</b></td></tr>
+        </table>
+      </div>
+
+      <div class="poster">
+        <h3>🧩 4. A FRASE BEM FEITA</h3>
+        <ol class="steps">
+          <li>Tem <b>sentido completo</b> — dá para entender (até uma palavra: "Socorro!").</li>
+          <li>Tem <b>espaço entre as palavras</b>: <span style="color:var(--red)">OGAROTOSOUEU ❌</span> → <span style="color:var(--grass-dark)">O garoto sou eu ✅</span></li>
+          <li>As palavras ficam <b>na ordem certa</b>: <span style="color:var(--red)">histórias contar gosto Eu de ❌</span> → <span style="color:var(--grass-dark)">Eu gosto de contar histórias ✅</span></li>
+        </ol>
+      </div>
+
+      <div class="poster">
+        <h3>✏️ 5. ESCRITA e PARÁGRAFO</h3>
+        <ol class="steps">
+          <li>Toda frase começa com letra <b>MAIÚSCULA</b>.</li>
+          <li>E termina com um sinal: <b>. ? ou !</b></li>
+          <li>O <b>parágrafo</b> é um grupo de frases que falam da <b>mesma ideia</b>.</li>
+          <li>O parágrafo começa <b>um pouquinho afastado</b> da margem (com um espacinho).</li>
+        </ol>
+      </div>
+
+      <button class="btn ghost" onclick="go('menu')">⬅️ Voltar às estações</button>
+    </div>
+  </section>
+
+  <!-- ============ TELA DE PÍLULAS (teoria) ============ -->
+  <section class="screen" id="scr-pill">
+    <div class="card">
+      <h2 id="pillTitle"></h2>
+      <div class="pill-box" id="pillBox"></div>
+      <div class="pill-dots" id="pillDots"></div>
+      <button class="btn sun" id="pillNext">Entendi! Próximo ➡️</button>
+      <button class="btn ghost" onclick="go('menu')">⬅️ Menu</button>
+    </div>
+  </section>
+
+  <!-- ============ TELA DE JOGO ============ -->
+  <section class="screen" id="scr-game">
+    <div class="card">
+      <h2 id="gameTitle"></h2>
+      <div class="q-count" id="gameCount"></div>
+      <div id="gameArea"></div>
+      <div class="fb" id="gameFb"></div>
+      <button class="btn sun" id="gameNext" style="display:none;">Continuar ➡️</button>
+      <button class="btn ghost" onclick="go('menu')">⬅️ Menu</button>
+    </div>
+  </section>
+
+  <!-- ============ ESTAÇÃO CONCLUÍDA ============ -->
+  <section class="screen" id="scr-won">
+    <div class="card" style="text-align:center;">
+      <div class="medal">🚃✨</div>
+      <h2>Vagão dourado ganho!</h2>
+      <p id="wonMsg" style="font-weight:800;"></p>
+      <button class="btn" onclick="go('menu')">🚂 Voltar às estações</button>
+    </div>
+  </section>
+
+  <!-- ============ FINAL ============ -->
+  <section class="screen" id="scr-fim">
+    <div class="card" style="text-align:center;">
+      <div class="medal">🏅</div>
+      <h2>Grande Viagem completa!</h2>
+      <p style="font-weight:900; font-size:1.2rem;" id="fimScore"></p>
+      <p id="fimMsg"></p>
+      <div class="code-box" id="fimCode"></div>
+      <p style="font-size:.9rem; color:var(--gray);">Mostre este código para o adulto que está com você! 😉</p>
+      <button class="btn red" onclick="startFinal()">🔁 Fazer a Viagem Final de novo</button>
+      <button class="btn" onclick="go('menu')">🚂 Voltar ao trem</button>
+    </div>
+  </section>
+
+  <!-- ============ ÁREA DOS PAIS ============ -->
+  <section class="screen" id="scr-pais">
+    <div class="card">
+      <h2>👨‍👩‍👧 Área dos pais</h2>
+      <p style="font-size:.95rem;">O progresso é salvo <b>automaticamente</b> neste aparelho. Conteúdo da prova de <b>08/10</b>: singular e plural, pontuação ( . ? ! ), tipos de frase, escrita de frases, parágrafo e interpretação de texto.</p>
+      <p style="font-size:.92rem;">Digite o código <b>PAIS-77</b> (fixo da família) ou o código <b>SIM-XX-YY</b> que apareceu no fim da Viagem Final para ver o relatório completo e o gabarito.</p>
+      <input class="codein" id="paisCode" placeholder="PAIS-77" maxlength="9">
+      <button class="btn grass" onclick="abrirRelatorio()">🔓 Abrir relatório</button>
+      <div id="paisReport"></div>
+      <h3>💾 Backup do progresso</h3>
+      <div class="back-row">
+        <button class="btn" onclick="exportar()">📥 Exportar</button>
+        <button class="btn" onclick="importar()">📤 Importar</button>
+      </div>
+      <textarea id="backupBox" placeholder="O código do backup aparece (ou é colado) aqui."></textarea>
+      <button class="btn ghost" onclick="zerar()">🗑️ Zerar tudo</button>
+      <button class="btn" onclick="go('menu')">⬅️ Voltar</button>
+    </div>
+  </section>
+
+</div>
+
+<!-- ============ MODAL (no lugar de alert/confirm) ============ -->
+<div class="mask" id="mask">
+  <div class="modal">
+    <h3 id="mdTitle"></h3>
+    <p id="mdMsg"></p>
+    <button class="btn" id="mdOk">Está bem</button>
+    <button class="btn ghost" id="mdCancel" style="display:none;">Cancelar</button>
+  </div>
+</div>
+
+<script>
+/* =====================================================
+   TREM DAS PALAVRAS — Português 2º ano (Colégio São José)
+   Prova de 08/10/2026
+   Conteúdo: singular/plural, pontuação (. ? !), tipos de
+   frase, frase (sentido/espaço/ordem), interpretação,
+   escrita de frases e parágrafo.
+   SEM áudio e SEM relógio.
+   ===================================================== */
+
+/* ---------- Estado + salvamento automático ---------- */
+var KEY='tremDasPalavras_v1';
+var MEM=null; /* memória de reserva se o localStorage estiver bloqueado */
+var S={wagons:[false,false,false,false,false,false], scores:[null,null,null,null,null,null], seed:null, finalScore:null, finalCode:null, codeLetters:null, savedAt:null};
+
+function lsGet(k){ try{ return localStorage.getItem(k); }catch(e){ return MEM; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){ MEM=v; } }
+function lsDel(k){ try{ localStorage.removeItem(k); }catch(e){} MEM=null; }
+
+try{ var raw=lsGet(KEY); if(raw){ var o=JSON.parse(raw); for(var k in o){ if(o.hasOwnProperty(k)) S[k]=o[k]; } } }catch(e){}
+if(!S.seed){ S.seed=String(Math.floor(Math.random()*1e9)); }
+
+function save(){ S.savedAt=new Date().toLocaleString('pt-BR'); lsSet(KEY, JSON.stringify(S)); refreshMenu(); }
+
+/* ---------- Modal (substitui alert/confirm) ---------- */
+function modal(title,msg,onOk,withCancel){
+  document.getElementById('mdTitle').textContent=title;
+  document.getElementById('mdMsg').innerHTML=msg;
+  var mask=document.getElementById('mask');
+  var c=document.getElementById('mdCancel');
+  c.style.display = withCancel ? 'block' : 'none';
+  document.getElementById('mdOk').onclick=function(){ mask.classList.remove('on'); if(onOk) onOk(); };
+  c.onclick=function(){ mask.classList.remove('on'); };
+  mask.classList.add('on');
+}
+
+/* ---------- Confete (SEM som) ---------- */
+function confetti(n){
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var em=['🎉','⭐','🎊','🚂','✨','🚃'];
+  for(var i=0;i<(n||24);i++){
+    var d=document.createElement('div'); d.className='cf';
+    d.textContent=em[Math.floor(Math.random()*em.length)];
+    d.style.left=(Math.random()*100)+'vw';
+    d.style.animationDuration=(2+Math.random()*2)+'s';
+    document.body.appendChild(d);
+    (function(el){ setTimeout(function(){ el.remove(); },4500); })(d);
+  }
+}
+
+/* ---------- Embaralhar COM SEMENTE FIXA (mulberry32) ----------
+   A ordem das alternativas é sorteada, mas fica sempre a mesma
+   neste aparelho, por isso o gabarito salvo continua valendo. */
+function hashStr(s){ var h=2166136261; for(var i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; }
+function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; var t=Math.imul(a^a>>>15, 1|a); t=t+Math.imul(t^t>>>7, 61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function shuffleSeeded(arr,key){
+  var rnd=mulberry32(hashStr(S.seed+'|'+key));
+  var a=arr.slice();
+  for(var i=a.length-1;i>0;i--){ var j=Math.floor(rnd()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
+  return a;
+}
+/* Coloca a alternativa CERTA numa posição que gira conforme a ordem em que
+   as perguntas aparecem (seq), com um deslocamento fixo por aparelho (seed).
+   Assim a resposta certa fica espalhada entre as letras e responder tudo na
+   mesma letra NUNCA dá nota alta. As alternativas erradas são embaralhadas
+   com semente fixa, então a ordem é sempre a mesma neste aparelho. */
+function placeOrder(q,key,seq){
+  var n=q.opts.length;
+  var shift=hashStr(S.seed)%n;
+  var slot=((seq||0)+shift)%n;
+  var wrongs=[]; for(var i=0;i<n;i++){ if(i!==q.r) wrongs.push(i); }
+  wrongs=shuffleSeeded(wrongs, key+'_w');
+  var order=new Array(n); order[slot]=q.r;
+  var wi=0; for(var p=0;p<n;p++){ if(p!==slot) order[p]=wrongs[wi++]; }
+  return order;
+}
+
+/* ---------- Navegação ---------- */
+function go(id){
+  var scr=document.querySelectorAll('.screen');
+  for(var i=0;i<scr.length;i++) scr[i].classList.remove('on');
+  document.getElementById('scr-'+id).classList.add('on');
+  window.scrollTo({top:0});
+  if(id==='menu') refreshMenu();
+}
+function refreshMenu(){
+  var done=0;
+  for(var i=1;i<=6;i++){
+    var ok=!!S.wagons[i-1];
+    document.getElementById('wag'+i).classList.toggle('won', ok);
+    document.getElementById('mb'+i).classList.toggle('done', ok);
+    if(ok) done++;
+  }
+  document.getElementById('trainLabel').textContent = done+' de 6 vagões dourados no trem 🚂';
+  var all = done===6;
+  document.getElementById('mbF').disabled=!all;
+  document.getElementById('finalHint').textContent = all ? 'Liberado! Boa viagem, jovem aprendiz! ⭐' : 'Complete as 6 estações para liberar!';
+  document.getElementById('saveInfo').textContent = S.savedAt ? ('💾 Salvo automaticamente em '+S.savedAt) : '';
+}
+
+/* =====================================================
+   TEORIA EM PÍLULAS
+   ===================================================== */
+var PILLS={
+ 1:{title:'🔢 Estação do Um e dos Muitos', pills:[
+   {e:'1️⃣', t:'<span class="hl">Singular</span> é quando a palavra fala de <b>UMA só</b> coisa: uma maçã, um menino. 🍎'},
+   {e:'🔢', t:'<span class="hl">Plural</span> é quando fala de <b>MAIS DE UMA</b>: três maçãs, três meninos. 🍎🍎🍎'},
+   {e:'➕', t:'Para formar o plural, quase sempre a gente acrescenta <span class="hl-b">S</span> ou <span class="hl-b">ES</span> no fim: bola → bola<b>s</b>, flor → flor<b>es</b>.'},
+   {e:'⚠️', t:'Casos espertos: palavra em <b>L</b> troca por <b>IS</b> (animal → anima<b>is</b>); em <b>Z</b> ganha <b>ES</b> (luz → luz<b>es</b>); em <b>ÃO</b> vira <b>ÕES</b> (coração → cora<b>ções</b>).'},
+   {e:'🚂', t:'Bordão da viagem: <b>"Singular é uma só! Plural é mais de uma!"</b> Agora é com você!'}
+ ]},
+ 2:{title:'✨ Estação dos Sinais', pills:[
+   {e:'⏺️', t:'O <span class="hl">ponto-final ( . )</span> termina a frase e <b>afirma</b> algo, com calma: "Está na hora do banho<b>.</b>"'},
+   {e:'❓', t:'O <span class="hl-b">ponto de interrogação ( ? )</span> faz uma <b>pergunta</b>: "Escovou os dentes<b>?</b>"'},
+   {e:'❗', t:'O <span class="hl-r">ponto de exclamação ( ! )</span> mostra <b>emoção</b> (surpresa, espanto, alegria) ou uma <b>ordem</b>: "Que calor<b>!</b>"'},
+   {e:'🔊', t:'Truque: leia a frase em voz alta. Se a voz <b>sobe</b> no fim = <b>?</b> Se tem <b>emoção forte</b> = <b>!</b> Se é só contar = <b>.</b>'},
+   {e:'✨', t:'Sua vez! Escolha o sinal certo para cada frase. 🪄'}
+ ]},
+ 3:{title:'🚦 Estação dos Tipos de Frase', pills:[
+   {e:'🟢', t:'A frase <span class="hl-g">afirmativa</span> <b>conta/afirma</b> algo e termina com <b>ponto-final ( . )</b>: "O tempo está bonito."'},
+   {e:'🔵', t:'A frase <span class="hl-b">interrogativa</span> faz uma <b>pergunta</b> e termina com <b>interrogação ( ? )</b>: "Essa casa é de dois andares?"'},
+   {e:'🔴', t:'A frase <span class="hl-r">exclamativa</span> mostra <b>emoção</b> e termina com <b>exclamação ( ! )</b>: "A fruta está estragada!"'},
+   {e:'🔎', t:'Olhe o <b>sinal do fim</b> da frase: ele conta qual é o tipo! Vamos treinar? 🚦'}
+ ]},
+ 4:{title:'🧩 Estação de Montar Frases', pills:[
+   {e:'🧩', t:'A <span class="hl">frase</span> é um grupo de palavras (às vezes só uma!) com <b>sentido completo</b> — dá para entender. Ex.: "Socorro!"'},
+   {e:'↔️', t:'Entre uma palavra e outra tem que ter <span class="hl">ESPAÇO</span>: "OGAROTOSOUEU" ❌ → "O garoto sou eu" ✅'},
+   {e:'🔀', t:'As palavras ficam na <span class="hl">ordem certa</span>: "histórias contar gosto Eu de" ❌ → "Eu gosto de contar histórias" ✅'},
+   {e:'🎈', t:'Toque nas bolinhas <b>na ordem certa</b> para montar cada frase. Leia em voz alta que fica fácil!'}
+ ]},
+ 5:{title:'🔎 Estação do Detetive da Leitura', pills:[
+   {e:'📖', t:'Para <span class="hl">interpretar um texto</span>, a gente lê com calma e procura as respostas <b>dentro dele</b>.'},
+   {e:'🕵️', t:'Truque de detetive: leia a pergunta e <span class="hl">volte no texto</span> para achar a resposta. Ela está escondida lá!'},
+   {e:'🌳', t:'Leia a historinha das três lixeiras em voz alta (pode pedir ajuda!) e depois responda. 🚮♻️'}
+ ]},
+ 6:{title:'✏️ Estação da Escrita Caprichada', pills:[
+   {e:'🔠', t:'Toda frase começa com letra <span class="hl">MAIÚSCULA</span> e termina com um <b>sinal: . ? ou !</b>'},
+   {e:'📝', t:'O <span class="hl-b">parágrafo</span> é um grupo de frases que falam da <b>mesma ideia</b>, juntinhas.'},
+   {e:'➡️', t:'O parágrafo começa <b>um pouquinho afastado</b> da margem (com um espacinho no comecinho da linha).'},
+   {e:'✏️', t:'Agora capriche: escolha a frase escrita do jeito certo! ✨'}
+ ]}
+};
+var pillState={p:0, idx:0};
+function startP(p){ pillState={p:p, idx:0}; document.getElementById('pillTitle').textContent=PILLS[p].title; renderPill(); go('pill'); }
+function renderPill(){
+  var P=PILLS[pillState.p], i=pillState.idx;
+  document.getElementById('pillBox').innerHTML='<div class="pe">'+P.pills[i].e+'</div><p>'+P.pills[i].t+'</p>';
+  document.getElementById('pillDots').textContent=P.pills.map(function(_,k){return k===i?'●':'○';}).join(' ');
+  document.getElementById('pillNext').textContent=(i===P.pills.length-1)?'🚂 Começar a estação!':'Entendi! Próximo ➡️';
+}
+document.getElementById('pillNext').onclick=function(){
+  var P=PILLS[pillState.p];
+  if(pillState.idx<P.pills.length-1){ pillState.idx++; renderPill(); }
+  else{ startGame(pillState.p); }
+};
+
+/* =====================================================
+   MOTOR DOS JOGOS
+   ===================================================== */
+function area(){ return document.getElementById('gameArea'); }
+function fbEl(){ return document.getElementById('gameFb'); }
+function nextBtn(){ return document.getElementById('gameNext'); }
+var G={};
+function setTitle(t,c){ document.getElementById('gameTitle').textContent=t; document.getElementById('gameCount').textContent=c||''; }
+function showFb(ok,html){ var f=fbEl(); f.className='fb on '+(ok?'ok':'no'); f.innerHTML=(ok?'✅ <b>Muito bem!</b> ':'🤔 <b>Quase!</b> ')+html; }
+function clearFb(){ var f=fbEl(); f.className='fb'; f.innerHTML=''; nextBtn().style.display='none'; }
+function winFase(p,msg){
+  S.wagons[p-1]=true;
+  if(G && typeof G.acertos==='number'){ S.scores[p-1]=G.acertos; }
+  save(); confetti(30);
+  document.getElementById('wonMsg').textContent=msg;
+  go('won');
+}
+function startGame(p){
+  clearFb();
+  if(p===1) g1_start();
+  if(p===2) g2_start();
+  if(p===3) g3_start();
+  if(p===4) g4_start();
+  if(p===5) g5_start();
+  if(p===6) g6_start();
+  go('game');
+}
+/* Múltipla escolha genérica: o botão guarda o ÍNDICE ORIGINAL (data-i);
+   a comparação é sempre com q.r, então embaralhar NUNCA muda o gabarito. */
+function renderMC(q,key,handler,punct,seq){
+  var html='<div class="q-sentence" style="font-size:'+(punct?'1.22rem':'1.05rem')+';">'+q.q+'</div>';
+  var order=placeOrder(q,key,seq); var opts='';
+  for(var k=0;k<order.length;k++){ var i=order[k]; opts+='<button class="opt" data-i="'+i+'" onclick="'+handler+'(this,'+i+')">'+q.opts[i]+'</button>'; }
+  html += punct ? ('<div class="punct-row">'+opts+'</div>') : opts;
+  area().innerHTML=html;
+}
+function markMC(btn,i,q){
+  var bs=document.querySelectorAll('#gameArea .opt');
+  for(var k=0;k<bs.length;k++){ bs[k].disabled=true; if(+bs[k].getAttribute('data-i')===q.r) bs[k].classList.add('right'); }
+  if(i===q.r){ showFb(true,q.exp); return true; }
+  btn.classList.add('wrong');
+  showFb(false, q.exp+'<span class="fb-right">✅ Resposta certa: '+q.opts[q.r]+'</span>');
+  return false;
+}
+
+/* =====================================================
+   ESTAÇÃO 1 — SINGULAR e PLURAL
+   kind 'sp' = dizer se é singular ou plural
+   kind 'pl' = escolher o plural certo (múltipla escolha)
+   ===================================================== */
+var G1=[
+  {kind:'sp', w:'uma maçã', r:'S', exp:'"uma maçã" fala de <b>uma só</b> fruta. É <b>singular</b>. 🍎'},
+  {kind:'sp', w:'três meninos', r:'P', exp:'"três meninos" é <b>mais de um</b>. É <b>plural</b>. 👦👦👦'},
+  {kind:'pl', q:'Qual é o plural de <b>bola</b>?', opts:['bolas','bolais','bolaes'], r:0,
+   exp:'Termina em vogal, então só acrescenta <b>S</b>: bola → bola<b>s</b>.'},
+  {kind:'pl', q:'Qual é o plural de <b>flor</b>?', opts:['flores','flors','florãos'], r:0,
+   exp:'Termina em <b>R</b>, então ganha <b>ES</b>: flor → flor<b>es</b>.'},
+  {kind:'sp', w:'as casas', r:'P', exp:'"as casas" é <b>mais de uma</b>. É <b>plural</b>. 🏠🏠'},
+  {kind:'pl', q:'Qual é o plural de <b>animal</b>?', opts:['animais','animals','animales'], r:0,
+   exp:'Termina em <b>L</b>: troca o L por <b>IS</b>. animal → anima<b>is</b>.'},
+  {kind:'pl', q:'Qual é o plural de <b>luz</b>?', opts:['luzes','luzs','luzis'], r:0,
+   exp:'Termina em <b>Z</b>, então ganha <b>ES</b>: luz → luz<b>es</b>.'},
+  {kind:'sp', w:'o cachorro', r:'S', exp:'"o cachorro" é <b>um só</b>. É <b>singular</b>. 🐶'},
+  {kind:'pl', q:'Qual é o plural de <b>coração</b>?', opts:['corações','coraçãos','coraçães'], r:0,
+   exp:'Termina em <b>ÃO</b>, então vira <b>ÕES</b>: coração → cora<b>ções</b>. ❤️❤️'},
+  {kind:'pl', q:'Qual é o plural de <b>papel</b>?', opts:['papéis','papels','papelzes'], r:0,
+   exp:'Termina em <b>L</b>: troca o L por <b>IS</b>. papel → papé<b>is</b>.'}
+];
+function g1_start(){ G={idx:0, acertos:0, ordem:shuffleSeeded(G1.map(function(_,i){return i;}),'g1ordem')}; g1_render(); }
+function g1_render(){
+  if(G.idx>=G.ordem.length){ winFase(1,'Você domina o singular e o plural! Singular é uma só, plural é mais de uma! 🔢'); return; }
+  var q=G1[G.ordem[G.idx]];
+  setTitle('🔢 Singular ou plural?','Pergunta '+(G.idx+1)+' de '+G.ordem.length);
+  if(q.kind==='sp'){
+    area().innerHTML='<div class="q-sentence">'+q.w+'</div>'+
+      '<div class="pick2">'+
+      '<button class="pickbtn" onclick="g1_sp(\'S\')"><span class="pe">1️⃣</span>SINGULAR<small>uma só</small></button>'+
+      '<button class="pickbtn b" onclick="g1_sp(\'P\')"><span class="pe">🔢</span>PLURAL<small>mais de uma</small></button>'+
+      '</div>';
+  }else{
+    renderMC(q,'g1q'+G.ordem[G.idx],'g1_mc',false,G.idx);
+  }
+}
+function g1_sp(v){
+  var q=G1[G.ordem[G.idx]];
+  var bs=document.querySelectorAll('#gameArea .pickbtn'); for(var k=0;k<bs.length;k++) bs[k].disabled=true;
+  if(v===q.r){ G.acertos++; showFb(true,q.exp); }
+  else{ showFb(false,q.exp); }
+  nextBtn().style.display='block'; nextBtn().onclick=function(){ clearFb(); G.idx++; g1_render(); };
+}
+function g1_mc(btn,i){
+  var q=G1[G.ordem[G.idx]];
+  if(markMC(btn,i,q)) G.acertos++;
+  nextBtn().style.display='block'; nextBtn().onclick=function(){ clearFb(); G.idx++; g1_render(); };
+}
+
+/* =====================================================
+   ESTAÇÃO 2 — PONTUAÇÃO ( . ? ! )
+   ===================================================== */
+var G2=[
+  {s:'Que dia mais lindo', r:'!', exp:'Mostra <b>alegria/admiração</b>: usa <b>!</b> → "Que dia mais lindo<b>!</b>"'},
+  {s:'Como você se chama', r:'?', exp:'É uma <b>pergunta</b> (começa com "Como"): usa <b>?</b> → "Como você se chama<b>?</b>"'},
+  {s:'Eu gosto de chocolate', r:'.', exp:'A frase só <b>conta</b> algo, com calma: usa <b>.</b> → "Eu gosto de chocolate<b>.</b>"'},
+  {s:'Quer ir brincar no balanço', r:'?', exp:'É um <b>convite em forma de pergunta</b>: usa <b>?</b> → "Quer ir brincar no balanço<b>?</b>"'},
+  {s:'Onde está o seu caderno', r:'?', exp:'É uma <b>pergunta</b> (começa com "Onde"): usa <b>?</b> → "Onde está o seu caderno<b>?</b>"'},
+  {s:'Cuidado com o degrau', r:'!', exp:'É um <b>aviso forte</b> (quase um grito): usa <b>!</b> → "Cuidado com o degrau<b>!</b>"'},
+  {s:'Meu cachorro está dormindo', r:'.', exp:'A frase só <b>conta</b> algo, com calma: usa <b>.</b> → "Meu cachorro está dormindo<b>.</b>"'},
+  {s:'O bolo de chocolate ficou uma delícia', r:'!', exp:'Mostra <b>emoção</b> (que delícia!): usa <b>!</b> → "...uma delícia<b>!</b>"'},
+  {s:'Está na hora do banho', r:'.', exp:'A frase só <b>avisa/conta</b> algo com calma: usa <b>.</b> → "Está na hora do banho<b>.</b>"'},
+  {s:'Escovou os dentes', r:'?', exp:'É uma <b>pergunta</b>: usa <b>?</b> → "Escovou os dentes<b>?</b>"'}
+];
+function g2_start(){ G={idx:0, acertos:0, ordem:shuffleSeeded(G2.map(function(_,i){return i;}),'g2ordem')}; g2_render(); }
+function g2_render(){
+  if(G.idx>=G.ordem.length){ winFase(2,'Você virou mestre dos sinais: . ? e ! não têm mais segredo! ✨'); return; }
+  var q=G2[G.ordem[G.idx]];
+  setTitle('✨ Qual sinal completa a frase?','Frase '+(G.idx+1)+' de '+G.ordem.length);
+  area().innerHTML='<div class="q-sentence">'+q.s+' <span style="color:var(--red)">__</span></div>'+
+    '<div class="punct-row">'+
+    ['.','?','!'].map(function(p){ return '<button class="opt" data-p="'+p+'" onclick="g2_ans(this,\''+p+'\')">'+p+'</button>'; }).join('')+
+    '</div>';
+}
+function g2_ans(btn,p){
+  var q=G2[G.ordem[G.idx]];
+  var bs=document.querySelectorAll('#gameArea .opt'); for(var k=0;k<bs.length;k++){ bs[k].disabled=true; if(bs[k].getAttribute('data-p')===q.r) bs[k].classList.add('right'); }
+  if(p===q.r){ G.acertos++; showFb(true,q.exp); }
+  else{ btn.classList.add('wrong'); showFb(false,q.exp); }
+  nextBtn().style.display='block'; nextBtn().onclick=function(){ clearFb(); G.idx++; g2_render(); };
+}
+
+/* =====================================================
+   ESTAÇÃO 3 — TIPOS DE FRASE (af / in / ex)
+   ===================================================== */
+var G3=[
+  {s:'O tempo está bonito.', t:'af', exp:'Ela só <b>conta/afirma</b> algo e termina com <b>.</b> É <b>afirmativa</b> (verde).'},
+  {s:'Essa casa é de dois andares?', t:'in', exp:'Faz uma <b>pergunta</b> e termina com <b>?</b> É <b>interrogativa</b> (azul).'},
+  {s:'A fruta está estragada!', t:'ex', exp:'Mostra <b>emoção</b> e termina com <b>!</b> É <b>exclamativa</b> (vermelho).'},
+  {s:'Meu cachorro está dormindo.', t:'af', exp:'Só <b>conta</b> algo com calma e termina com <b>.</b> É <b>afirmativa</b> (verde).'},
+  {s:'Onde está o seu caderno?', t:'in', exp:'É uma <b>pergunta</b> e termina com <b>?</b> É <b>interrogativa</b> (azul).'},
+  {s:'Que calor!', t:'ex', exp:'Mostra <b>emoção</b> (espanto) e termina com <b>!</b> É <b>exclamativa</b> (vermelho).'},
+  {s:'Está na hora do banho.', t:'af', exp:'Só <b>avisa/conta</b> algo e termina com <b>.</b> É <b>afirmativa</b> (verde).'},
+  {s:'Escovou os dentes?', t:'in', exp:'É uma <b>pergunta</b> e termina com <b>?</b> É <b>interrogativa</b> (azul).'},
+  {s:'Cuidado com o degrau!', t:'ex', exp:'É um <b>aviso forte</b> (ordem) e termina com <b>!</b> É <b>exclamativa</b> (vermelho).'}
+];
+var TYPE_NAME={af:'afirmativa', in:'interrogativa', ex:'exclamativa'};
+function g3_start(){ G={idx:0, acertos:0, ordem:shuffleSeeded(G3.map(function(_,i){return i;}),'g3ordem')}; g3_render(); }
+function g3_render(){
+  if(G.idx>=G.ordem.length){ winFase(3,'Você sabe reconhecer os 3 tipos de frase pelo sinal do fim! 🚦'); return; }
+  var q=G3[G.ordem[G.idx]];
+  setTitle('🚦 Que tipo de frase é essa?','Frase '+(G.idx+1)+' de '+G.ordem.length+' • Olhe o sinal do fim!');
+  area().innerHTML='<div class="q-sentence">'+q.s+'</div>'+
+    '<div class="type-grid">'+
+    '<button class="typebtn t-af" onclick="g3_ans(\'af\')">Afirmativa<small>🟢 conta .</small></button>'+
+    '<button class="typebtn t-in" onclick="g3_ans(\'in\')">Interrogativa<small>🔵 pergunta ?</small></button>'+
+    '<button class="typebtn t-ex" onclick="g3_ans(\'ex\')">Exclamativa<small>🔴 emoção !</small></button>'+
+    '</div>';
+}
+function g3_ans(t){
+  var q=G3[G.ordem[G.idx]];
+  var bs=document.querySelectorAll('#gameArea .typebtn'); for(var k=0;k<bs.length;k++) bs[k].disabled=true;
+  if(t===q.t){ G.acertos++; showFb(true,q.exp); }
+  else{ showFb(false,q.exp+'<span class="fb-right">✅ Era: '+TYPE_NAME[q.t]+'</span>'); }
+  nextBtn().style.display='block'; nextBtn().onclick=function(){ clearFb(); G.idx++; g3_render(); };
+}
+
+/* =====================================================
+   ESTAÇÃO 4 — FRASE: sentido, espaço e ordem
+   kind 'ordem' = montar nas bolinhas
+   kind 'mc'    = múltipla escolha
+   ===================================================== */
+var G4=[
+  {kind:'ordem', palavras:['Eu','gosto','de','contar','histórias.'], frase:'Eu gosto de contar histórias.'},
+  {kind:'ordem', palavras:['O','trem','chegou','na','estação.'], frase:'O trem chegou na estação.'},
+  {kind:'mc', q:'Qual está escrita do jeito CERTO (com espaço entre as palavras)?',
+   opts:['O garoto de camiseta amarela sou eu.','Ogarotodecamisetaamarelasoueu.','O garotode camisetaamarela soueu.'], r:0,
+   exp:'A frase precisa de <b>espaço</b> entre todas as palavras: "O garoto de camiseta amarela sou eu."'},
+  {kind:'mc', q:'Qual pode ser uma frase sozinha (tem sentido completo)?',
+   opts:['Socorro!','de o a para','mesa cadeira livro'], r:0,
+   exp:'"Socorro!" tem <b>sentido completo</b> (dá para entender). As outras são só palavras soltas, sem sentido.'},
+  {kind:'mc', q:'Quantas palavras tem a frase "O leão dorme na jaula."?',
+   opts:['5 palavras','3 palavras','7 palavras'], r:0,
+   exp:'Conte pelos espaços: O • leão • dorme • na • jaula = <b>5 palavras</b>.'}
+];
+function g4_start(){ G={idx:0, acertos:0, montada:[]}; g4_render(); }
+function g4_render(){
+  if(G.idx>=G4.length){ winFase(4,'Frases montadas com capricho: espaço entre as palavras e tudo na ordem certa! 🧩'); return; }
+  var q=G4[G.idx];
+  if(q.kind==='ordem'){
+    setTitle('🧩 Toque nas bolinhas na ordem certa!','Frase '+(G.idx+1)+' de '+G4.length);
+    G.montada=[];
+    var html='<div class="built" id="builtRow"><span style="color:#B4A98D;font-weight:800;">Monte a frase aqui...</span></div><div class="balls">';
+    var order=shuffleSeeded(q.palavras.map(function(w,i){return i;}),'g4b'+G.idx);
+    for(var k=0;k<order.length;k++){ var i=order[k]; html+='<button class="ball" id="ball'+i+'" onclick="g4_pick('+i+')">'+q.palavras[i]+'</button>'; }
+    area().innerHTML=html+'</div>';
+  }else{
+    setTitle('🧩 Marque a resposta certa!','Desafio '+(G.idx+1)+' de '+G4.length);
+    renderMC(q,'g4q'+G.idx,'g4_mc',false,G.idx);
+  }
+}
+function g4_pick(i){
+  var q=G4[G.idx]; clearFb();
+  var esperado=G.montada.length;
+  if(i===esperado){
+    G.montada.push(q.palavras[i]);
+    document.getElementById('ball'+i).classList.add('used');
+    document.getElementById('builtRow').innerHTML=G.montada.map(function(w){return '<span class="bw">'+w+'</span>';}).join('');
+    if(G.montada.length===q.palavras.length){
+      G.acertos++;
+      showFb(true,'Ficou perfeita: <b>"'+q.frase+'"</b> — com espaço entre as palavras e tudo na ordem! 👏');
+      nextBtn().style.display='block'; nextBtn().onclick=function(){ clearFb(); G.idx++; g4_render(); };
+    }
+  }else{
+    showFb(false,'Essa palavra ainda não encaixa aí. Pense: qual palavra vem <b>primeiro</b> para a frase ter sentido? Leia em voz alta o que já montou.');
+  }
+}
+function g4_mc(btn,i){
+  var q=G4[G.idx];
+  if(markMC(btn,i,q)) G.acertos++;
+  nextBtn().style.display='block'; nextBtn().onclick=function(){ clearFb(); G.idx++; g4_render(); };
+}
+
+/* =====================================================
+   ESTAÇÃO 5 — INTERPRETAÇÃO DE TEXTO
+   ===================================================== */
+var TEXTO='<div class="story">'+
+ '<h4>♻️ As três lixeiras</h4>'+
+ '<p>Na escola do Téo chegaram três lixeiras novas. A azul era para o papel. A verde era para o vidro. E a vermelha era para o plástico.</p>'+
+ '<p>Na segunda-feira, a turma aprendeu a separar o lixo. Téo pegou a garrafa de plástico e colocou na lixeira vermelha.</p>'+
+ '<p>— Assim eu ajudo o planeta! — disse ele, muito feliz.</p>'+
+ '<p>Agora a escola está mais limpa e bonita.</p></div>';
+var G5=[
+  {q:'Quantas lixeiras novas chegaram na escola?', opts:['Três','Duas','Cinco'], r:0,
+   exp:'O texto diz: "chegaram <b>três</b> lixeiras novas".'},
+  {q:'A lixeira azul é para quê?', opts:['Para o papel','Para o vidro','Para o plástico'], r:0,
+   exp:'Está no texto: "A <b>azul</b> era para o <b>papel</b>."'},
+  {q:'Onde Téo colocou a garrafa de plástico?', opts:['Na lixeira vermelha','Na lixeira verde','Na lixeira azul'], r:0,
+   exp:'O texto diz que a vermelha era do plástico e Téo "colocou na lixeira <b>vermelha</b>".'},
+  {q:'Como Téo ficou ao separar o lixo?', opts:['Muito feliz','Com raiva','Com medo'], r:0,
+   exp:'Está escrito: "disse ele, muito <b>feliz</b>". 😊'},
+  {q:'Qual é a ideia principal da historinha?', opts:['Separar o lixo ajuda a cuidar do planeta','Que lixeira azul é a mais bonita','Que segunda-feira é dia de prova'], r:0,
+   exp:'O texto todo mostra que <b>separar o lixo</b> deixa a escola limpa e <b>ajuda o planeta</b>. ♻️'},
+  {q:'Que sinal termina a frase "Assim eu ajudo o planeta!"? Por quê?', opts:['Exclamação ( ! ), porque mostra emoção/alegria','Interrogação ( ? ), porque é pergunta','Ponto-final ( . ), porque é calma'], r:0,
+   exp:'Ela mostra a <b>alegria</b> do Téo, por isso termina com <b>exclamação ( ! )</b>.'}
+];
+function g5_start(){ G={fase:'ler', acertos:0, idx:0};
+  setTitle('🔎 Leia o texto com atenção!','Pode ler em voz alta e pedir ajuda 😊');
+  area().innerHTML=TEXTO+'<button class="btn sun" onclick="g5_quiz(0)">Já li! Vamos às perguntas ➡️</button>';
+}
+function g5_quiz(i){
+  clearFb();
+  if(i>=G5.length){ winFase(5,'Você é um detetive da leitura: achou todas as respostas dentro do texto! 🕵️'); return; }
+  G.idx=i;
+  var q=G5[i];
+  setTitle('🔎 Marque a resposta certa!','Pergunta '+(i+1)+' de '+G5.length);
+  var html='<details style="margin-bottom:8px;"><summary style="font-weight:900; color:var(--rail); cursor:pointer;">👀 Espiar o texto de novo</summary>'+TEXTO+'</details>';
+  area().innerHTML=html+'<div id="g5holder"></div>';
+  var hold=document.getElementById('g5holder');
+  var order=placeOrder(q,'g5q'+i,i); var opts='';
+  for(var k=0;k<order.length;k++){ var idx=order[k]; opts+='<button class="opt" data-i="'+idx+'" onclick="g5_ans(this,'+idx+')">'+q.opts[idx]+'</button>'; }
+  hold.innerHTML='<div class="q-sentence" style="font-size:1.05rem;">'+q.q+'</div>'+opts;
+}
+function g5_ans(btn,k){
+  var q=G5[G.idx];
+  var bs=document.querySelectorAll('#gameArea .opt'); for(var j=0;j<bs.length;j++){ bs[j].disabled=true; if(+bs[j].getAttribute('data-i')===q.r) bs[j].classList.add('right'); }
+  if(k===q.r){ G.acertos++; showFb(true,q.exp); }
+  else{ btn.classList.add('wrong'); showFb(false,q.exp+'<span class="fb-right">✅ Resposta certa: '+q.opts[q.r]+'</span>'); }
+  nextBtn().style.display='block'; nextBtn().onclick=function(){ g5_quiz(G.idx+1); };
+}
+
+/* =====================================================
+   ESTAÇÃO 6 — ESCRITA DE FRASES e PARÁGRAFO
+   ===================================================== */
+var G6=[
+  {q:'Qual frase está escrita do jeito CERTO?',
+   opts:['O sol brilha no céu.','o sol brilha no céu.','O sol brilha no céu'], r:0,
+   exp:'Começa com letra <b>MAIÚSCULA</b> (O) e termina com <b>ponto ( . )</b>. A segunda começa com minúscula; a terceira não tem ponto no fim.'},
+  {q:'Como toda frase deve COMEÇAR?',
+   opts:['Com letra maiúscula','Com letra minúscula','Com um número'], r:0,
+   exp:'Toda frase começa com letra <b>MAIÚSCULA</b>. 🔠'},
+  {q:'Como toda frase deve TERMINAR?',
+   opts:['Com um sinal: . ? ou !','Sem nada','Sempre com vírgula'], r:0,
+   exp:'A frase termina com um <b>sinal de pontuação</b>: ponto, interrogação ou exclamação ( . ? ! ).'},
+  {q:'O que é um PARÁGRAFO?',
+   opts:['Um grupo de frases sobre a mesma ideia','Uma só palavra','Um desenho'], r:0,
+   exp:'O <b>parágrafo</b> é um conjunto de <b>frases que falam da mesma ideia</b>, juntinhas. 📝'},
+  {q:'Onde um parágrafo COMEÇA na linha?',
+   opts:['Um pouquinho afastado da margem','Bem no meio da folha','Colado na margem, igual às outras linhas'], r:0,
+   exp:'O parágrafo começa com um <b>espacinho afastado da margem</b>, para mostrar que é um começo novo. ➡️'}
+];
+function g6_start(){ G={idx:0, acertos:0, ordem:shuffleSeeded(G6.map(function(_,i){return i;}),'g6ordem')}; g6_render(); }
+function g6_render(){
+  if(G.idx>=G.ordem.length){ winFase(6,'Escrita caprichada: maiúscula no começo, sinal no fim e parágrafo certinho! ✏️'); return; }
+  var q=G6[G.ordem[G.idx]];
+  setTitle('✏️ Marque a resposta certa!','Pergunta '+(G.idx+1)+' de '+G.ordem.length);
+  renderMC(q,'g6q'+G.ordem[G.idx],'g6_ans',false,G.idx);
+}
+function g6_ans(btn,i){
+  var q=G6[G.ordem[G.idx]];
+  if(markMC(btn,i,q)) G.acertos++;
+  nextBtn().style.display='block'; nextBtn().onclick=function(){ clearFb(); G.idx++; g6_render(); };
+}
+
+/* =====================================================
+   A GRANDE VIAGEM FINAL — 10 perguntas misturadas
+   ===================================================== */
+var FINAL=[
+  {q:'"uma maçã" está no...', opts:['singular','plural','nenhum'], r:0,
+   exp:'É <b>uma só</b> maçã → <b>singular</b>.'},
+  {q:'Qual é o plural de "animal"?', opts:['animais','animals','animales'], r:0,
+   exp:'Termina em <b>L</b>: troca o L por <b>IS</b> → anima<b>is</b>.'},
+  {q:'Qual é o plural de "coração"?', opts:['corações','coraçãos','coraçães'], r:0,
+   exp:'Termina em <b>ÃO</b>: vira <b>ÕES</b> → cora<b>ções</b>.'},
+  {q:'"Que calor__" Qual sinal completa?', opts:['!','?','.'], r:0, punct:true,
+   exp:'Mostra <b>emoção</b> (espanto) → <b>!</b>'},
+  {q:'"Onde está o seu caderno__" Qual sinal completa?', opts:['?','!','.'], r:0, punct:true,
+   exp:'É uma <b>pergunta</b> → <b>?</b>'},
+  {q:'"A fruta está estragada!" é uma frase...', opts:['exclamativa','interrogativa','afirmativa'], r:0,
+   exp:'Termina com <b>!</b> e mostra emoção → <b>exclamativa</b>.'},
+  {q:'"Essa casa é de dois andares?" é uma frase...', opts:['interrogativa','exclamativa','afirmativa'], r:0,
+   exp:'Termina com <b>?</b> e faz uma pergunta → <b>interrogativa</b>.'},
+  {q:'Qual frase está escrita do jeito CERTO?', opts:['Eu gosto de pipoca.','Eugostodepipoca.','pipoca de gosto Eu.'], r:0,
+   exp:'Tem <b>espaço</b> entre as palavras, <b>ordem certa</b>, maiúscula no começo e ponto no fim.'},
+  {q:'Quantas palavras tem a frase "O trem apita alto."?', opts:['4 palavras','3 palavras','6 palavras'], r:0,
+   exp:'Conte pelos espaços: O • trem • apita • alto = <b>4 palavras</b>.'},
+  {q:'O que é um parágrafo?', opts:['Um grupo de frases sobre a mesma ideia','Uma só letra','Um número'], r:0,
+   exp:'O <b>parágrafo</b> junta <b>frases sobre a mesma ideia</b> e começa afastado da margem.'}
+];
+var F={};
+function startFinal(){
+  if(!S.wagons.every(function(v){return v;})) return;
+  F={idx:0, score:0, ordem:shuffleSeeded(FINAL.map(function(_,i){return i;}),'finalordem')};
+  clearFb(); f_render(); go('game');
+}
+function f_render(){
+  if(F.idx>=F.ordem.length){ f_end(); return; }
+  var q=FINAL[F.ordem[F.idx]];
+  setTitle('🏆 A Grande Viagem Final!','Pergunta '+(F.idx+1)+' de '+F.ordem.length+' • Acertos: '+F.score);
+  renderMC(q,'final'+F.ordem[F.idx],'f_ans', !!q.punct, F.idx);
+}
+function f_ans(btn,i){
+  var q=FINAL[F.ordem[F.idx]];
+  if(markMC(btn,i,q)) F.score++;
+  nextBtn().style.display='block'; nextBtn().onclick=function(){ clearFb(); F.idx++; f_render(); };
+}
+function f_end(){
+  var letras='ABCDEFGHJKLMNPQRSTUVWXYZ'; /* sem I e sem O */
+  if(!S.codeLetters){ S.codeLetters=letras[Math.floor(Math.random()*letras.length)]+letras[Math.floor(Math.random()*letras.length)]; }
+  if(S.finalScore===null || F.score>S.finalScore){ S.finalScore=F.score; }
+  S.finalCode='SIM-'+String(S.finalScore).padStart(2,'0')+'-'+S.codeLetters;
+  save(); confetti(50);
+  document.getElementById('fimScore').textContent='Você acertou '+F.score+' de '+FINAL.length+'!';
+  document.getElementById('fimMsg').innerHTML =
+    F.score>=9 ? '🌟 <b>Maquinista campeão!</b> Está tudo pronto para a prova de amanhã!' :
+    F.score>=7 ? '👏 <b>Muito bem!</b> Dê uma olhadinha no Mapa da Viagem e jogue de novo para brilhar ainda mais.' :
+                 '💪 <b>Bom treino!</b> Que tal reler o Mapa da Viagem com um adulto e tentar outra vez? Você consegue!';
+  document.getElementById('fimCode').textContent='🏆 '+S.finalCode;
+  go('fim');
+}
+
+/* =====================================================
+   ÁREA DOS PAIS / RELATÓRIO
+   ===================================================== */
+function abrirRelatorio(){
+  var code=(document.getElementById('paisCode').value||'').trim().toUpperCase();
+  var ok=(code==='PAIS-77') || (S.finalCode && code===S.finalCode);
+  if(!ok){ modal('🔒 Código não confere','Digite <b>PAIS-77</b> (código fixo da família) ou o código <b>SIM-XX-YY</b> que apareceu no fim da Viagem Final.'); return; }
+  renderRelatorio();
+}
+function renderRelatorio(){
+  var nomes=['🔢 Singular e plural','✨ Pontuação ( . ? ! )','🚦 Tipos de frase','🧩 Montar frases','🔎 Interpretação','✏️ Escrita e parágrafo'];
+  var totais=[10,10,9,5,6,5];
+  var html='<div class="poster"><h3>📊 Progresso da criança</h3><ol class="steps">';
+  for(var i=0;i<nomes.length;i++){
+    var feito=S.wagons[i];
+    var ac=(S.scores[i]!==null && S.scores[i]!==undefined)?S.scores[i]:null;
+    html+='<li>'+nomes[i]+': '+(feito
+      ? '<b style="color:var(--grass-dark)">concluído ✅</b>'+(ac!==null?(' — acertou <b>'+ac+' de '+totais[i]+'</b> de primeira'):'')
+      : '<span style="color:var(--gray)">pendente ⏳</span>')+'</li>';
+  }
+  html+='<li>🏆 Grande Viagem Final: '+(S.finalScore!==null
+    ? ('<b>'+S.finalScore+'/10</b> — código <b>'+S.finalCode+'</b>')
+    : '<span style="color:var(--gray)">ainda não jogada</span>')+'</li></ol>';
+  html+='<p class="save-info">'+(S.savedAt?('Último salvamento automático: '+S.savedAt):'Nenhum progresso salvo ainda.')+'</p></div>';
+
+  html+='<div class="poster"><h3>✅ Gabarito da Grande Viagem Final</h3><ol class="steps">';
+  for(var m=0;m<FINAL.length;m++){
+    html+='<li>'+FINAL[m].q.replace(/__/g,' ___')+'<br><b style="color:var(--grass-dark)">→ '+FINAL[m].opts[FINAL[m].r]+'</b><br>'+
+         '<span style="font-size:.9rem; color:var(--gray);">'+FINAL[m].exp+'</span></li>';
+  }
+  html+='</ol></div>';
+  document.getElementById('paisReport').innerHTML=html;
+}
+function exportar(){
+  document.getElementById('backupBox').value=JSON.stringify(S);
+  modal('📥 Backup gerado','Pronto! Copie o texto da caixinha e guarde onde quiser (pode colar num WhatsApp ou bloco de notas).');
+}
+function importar(){
+  var v=document.getElementById('backupBox').value.trim();
+  if(!v){ modal('📤 Importar','Cole primeiro o código do backup na caixinha e clique em Importar de novo.'); return; }
+  try{
+    var o=JSON.parse(v);
+    for(var k in o){ if(o.hasOwnProperty(k)) S[k]=o[k]; }
+    save();
+    modal('🎉 Tudo certo!','Progresso restaurado com sucesso.');
+  }catch(e){ modal('🤔 Ops','Esse código não parece um backup válido. Confira se você colou o texto inteiro.'); }
+}
+function zerar(){
+  modal('🗑️ Zerar tudo','Tem certeza? <b>Todo o progresso será apagado</b> e não dá para desfazer.', function(){
+    var seed=S.seed;
+    S={wagons:[false,false,false,false,false,false], scores:[null,null,null,null,null,null], seed:seed, finalScore:null, finalCode:null, codeLetters:null, savedAt:null};
+    lsDel(KEY);
+    refreshMenu();
+    document.getElementById('paisReport').innerHTML='';
+    modal('✨ Pronto','O material foi zerado. Pode começar de novo!');
+  }, true);
+}
+
+/* ---------- Início ---------- */
+save();
+refreshMenu();
+</script>
+</body>
+</html>
